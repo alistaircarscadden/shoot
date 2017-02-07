@@ -4,16 +4,21 @@ from time import clock
 import curses
 import random
 
+art = dict()
+
+def load_art():
+    artfile = open("art.txt", "r")
+    artlines = []
+    for line in artfile:
+        artlines.append(line)
+    
+    
+
 def end_app(stdscr):
 	curses.nocbreak()
 	stdscr.keypad(0)
 	curses.echo()
 	curses.endwin()
-	
-def scrn_clr(stdscr):
-	for r in range(0, curses.LINES):
-		for c in range(0, curses.COLS - 1):
-			stdscr.addstr(r, c, ' ')
 
 def scrn_title(stdscr):
 	scrn_clr(stdscr)
@@ -124,7 +129,12 @@ def scrn_shootout(stdscr, names, feelings):
 				stdscr.addstr(13, 50, ".............")
 
 		if(cur == ord('q')): break
-		
+
+def draw_clr(stdscr):
+	for r in range(0, curses.LINES):
+		for c in range(0, curses.COLS - 1):
+			stdscr.addstr(r, c, ' ')
+
 def draw_bg(stdscr):
 	for c in range(0, curses.COLS - 1):
 		stdscr.addstr(15, c, '_')
@@ -135,19 +145,19 @@ def draw_bg(stdscr):
 	stdscr.move(0, 0)
 	
 def draw_playerA(stdscr, stance):
-	if(stance == 0 or stance == 3): 
+	if(stance == 0 or stance == 3):
 		stdscr.addstr(14, 7, '  o  ')
 		stdscr.addstr(15, 7, ' ||| ')
 		stdscr.addstr(16, 7, '_/ \_')
-	if(stance == 1): 
+	if(stance == 1):
 		stdscr.addstr(14, 7, '  o  ')
 		stdscr.addstr(15, 7, ' ||\\ ')
 		stdscr.addstr(16, 7, '_/ \_')
-	if(stance == 2): 
+	if(stance == 2):
 		stdscr.addstr(14, 7, '  o_ ')
 		stdscr.addstr(15, 7, ' ||  ')
 		stdscr.addstr(16, 7, '_/ \_')
-	if(stance == 5): 
+	if(stance == 5):
 		stdscr.addstr(14, 7, ' _u_')
 		stdscr.addstr(15, 7, '|_ _|')
 		stdscr.addstr(16, 7, '\|_|/')
@@ -155,19 +165,19 @@ def draw_playerA(stdscr, stance):
 	stdscr.move(0, 0)
 	
 def draw_playerB(stdscr, stance):
-	if(stance == 0 or stance == 3): 
+	if(stance == 0 or stance == 3):
 		stdscr.addstr(14, 60, '  o  ')
 		stdscr.addstr(15, 60, ' ||| ')
 		stdscr.addstr(16, 60, '_/ \_')
-	if(stance == 1): 
+	if(stance == 1):
 		stdscr.addstr(14, 60, '  o  ')
 		stdscr.addstr(15, 60, ' ||\\ ')
 		stdscr.addstr(16, 60, '_/ \_')
-	if(stance == 2): 
+	if(stance == 2):
 		stdscr.addstr(14, 60, '  o_ ')
 		stdscr.addstr(15, 60, ' ||  ')
 		stdscr.addstr(16, 60, '_/ \_')
-	if(stance == 5): 
+	if(stance == 5):
 		stdscr.addstr(14, 60, ' _u_')
 		stdscr.addstr(15, 60, '|_ _|')
 		stdscr.addstr(16, 60, '\|_|/')
@@ -175,6 +185,7 @@ def draw_playerB(stdscr, stance):
 	stdscr.move(0, 0)
 
 start_time = clock()
+load_art()
 stdscr = curses.initscr()
 curses.cbreak()
 stdscr.leaveok(True)
