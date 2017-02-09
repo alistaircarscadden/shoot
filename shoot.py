@@ -11,9 +11,23 @@ def load_art():
     artlines = []
     for line in artfile:
         artlines.append(line)
-    
-    
 
+    cur_art = []
+    for i in range(0, len(artlines)):
+        if(artlines[i][0] == '?' and artlines[i][1] != '#'):
+            j = i + 1
+            while(artlines[j][0] != '?'):
+                cur_art.append(artlines[j][0:len(artlines[j]) - 1])
+                j += 1
+            art[artlines[i][2:len(artlines[i]) - 1]] = cur_art
+            cur_art = []
+    print(art)
+
+def draw_art(stdscr, key, line, col):
+    for artl in art[key]:
+        stdscr.addstr(line, col, artl)
+        line += 1
+           
 def end_app(stdscr):
 	curses.nocbreak()
 	stdscr.keypad(0)
@@ -21,13 +35,13 @@ def end_app(stdscr):
 	curses.endwin()
 
 def scrn_title(stdscr):
-	scrn_clr(stdscr)
-	stdscr.addstr(5, 5, "Shooting Game")
+	draw_clr(stdscr)
+	draw_art(stdscr, 'titleborder', 0, 0)
 	stdscr.refresh()
 	stdscr.getch()
 
 def scrn_names(stdscr):
-	scrn_clr(stdscr)
+	draw_clr(stdscr)
 	names = ["", ""]
 	stdscr.addstr(5, 2, "Enter first player name: ")
 	stdscr.refresh()
@@ -50,7 +64,7 @@ def scrn_names(stdscr):
 	return names
 
 def scrn_feelings(stdscr, names):
-	scrn_clr(stdscr)
+	draw_clr(stdscr)
 	feelings = [random.random() * 2, random.random() * 2]
 	stdscr.addstr(5, 2, "{}: {}".format(names[0], feelings[0]))
 	stdscr.addstr(6, 2, "{}: {}".format(names[1], feelings[1]))
@@ -58,7 +72,7 @@ def scrn_feelings(stdscr, names):
 	return feelings
 
 def scrn_shootout(stdscr, names, feelings):
-	scrn_clr(stdscr)
+	draw_clr(stdscr)
 	draw_bg(stdscr)
 	draw_playerA(stdscr, 0)
 	draw_playerB(stdscr, 0)
@@ -166,9 +180,7 @@ def draw_playerA(stdscr, stance):
 	
 def draw_playerB(stdscr, stance):
 	if(stance == 0 or stance == 3):
-		stdscr.addstr(14, 60, '  o  ')
-		stdscr.addstr(15, 60, ' ||| ')
-		stdscr.addstr(16, 60, '_/ \_')
+		draw_art(14, 60, 'leftcowboy0')
 	if(stance == 1):
 		stdscr.addstr(14, 60, '  o  ')
 		stdscr.addstr(15, 60, ' ||\\ ')
